@@ -17,9 +17,17 @@ exports.postLogin = (req, res, next) => {
       req.session.user = user;
       req.session.isLoggedIn = true;
       // res.setHeader('Set-Cookie', 'isLoggedIn=true')
-      res.redirect('/');
+      req.session.save((err) => {
+        console.log(err);
+        res.redirect('/');
+      });
     })
     .catch();
 };
 
-exports.postLogout = (req, res, next) => {};
+exports.postLogout = (req, res, next) => {
+  req.session.destroy((err) => {
+    console.log(err);
+    res.redirect('/');
+  });
+};
